@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14868" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Wqb-fH-rHl">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="16096" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Wqb-fH-rHl">
     <device id="watch38"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14643"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="16012"/>
     </dependencies>
     <scenes>
         <!--Static Notification Interface Controller-->
@@ -42,7 +42,7 @@
                             <accessibilityTraits key="accessibilityTraits" staticText="YES" updatesFrequently="YES"/>
                             <fontDescription key="font" type="system" pointSize="14"/>
                         </label>
-                        <label width="136" height="23.5" alignment="center" text="0 Pongs" textAlignment="center" numberOfLines="0" id="6vj-gd-leC">
+                        <label width="136" height="23.5" alignment="center" text="0 Pings" textAlignment="center" numberOfLines="0" id="6vj-gd-leC">
                             <accessibilityTraits key="accessibilityTraits" staticText="YES" updatesFrequently="YES"/>
                             <fontDescription key="font" type="boldSystem" pointSize="14"/>
                         </label>
@@ -50,7 +50,7 @@
                     <connections>
                         <outlet property="image" destination="3OL-Cc-1ez" id="WgS-rM-faF"/>
                         <outlet property="label" destination="fLJ-DU-dOK" id="fUV-6V-DU1"/>
-                        <outlet property="pongs" destination="6vj-gd-leC" id="Eao-B8-XL4"/>
+                        <outlet property="pings" destination="6vj-gd-leC" id="01c-nn-LAD"/>
                     </connections>
                 </controller>
             </objects>

@@ -11,14 +11,20 @@ import WatchConnectivity
 import Foundation
 
 class InterfaceController: WKInterfaceController, WCSessionDelegate {
+ 
+  
   @IBOutlet weak var label: WKInterfaceLabel!
-  @IBOutlet weak var pongs: WKInterfaceLabel!
+  @IBOutlet weak var pings: WKInterfaceLabel!
   @IBOutlet weak var image: WKInterfaceImage!
-  var numPongs: Int = 0
+  var numPings: Int = 0
   
   var session: WCSession?
   
   ////////////////////////////////////////////////////////////////////////////////
+  
+  func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+     print("Did activate")
+ }
   
   override func awake(withContext context: Any?) {
     super.awake(withContext: context)
@@ -44,16 +50,22 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
   
   ////////////////////////////////////////////////////////////////////////////////
   
-
-  
   func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
     print("watch received message", message);
-    let text = message["text"] as! String
-    let timestamp : Double = (message["timestamp"] as! NSNumber).doubleValue
-    self.label.setText(text)
-    let currentTimestamp: Double = Date().timeIntervalSince1970 * 1000
-    let elapsed : Double = currentTimestamp - timestamp
-    replyHandler(["elapsed":Int(elapsed), "timestamp": round(currentTimestamp)])
+       
+    if (message["ping"] != nil) {
+      self.numPings = self.numPings + 1;
+      self.pings.setText("\(self.numPings) pings")
+      print("sending pong")
+      replyHandler(["pong": true])
+    } else {
+      let text = message["text"] as! String
+      let timestamp : Double = (message["timestamp"] as! NSNumber).doubleValue
+      self.label.setText(text)
+      let currentTimestamp: Double = Date().timeIntervalSince1970 * 1000
+      let elapsed : Double = currentTimestamp - timestamp
+      replyHandler(["elapsed":Int(elapsed), "timestamp": round(currentTimestamp)])
+    }
   }
   
   ////////////////////////////////////////////////////////////////////////////////
@@ -88,38 +100,20 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
   
   func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any]) {
     print("did receive user info", userInfo)
-    // Send the bullshit user info back to the device just to demonstrate it works ;)
-    session.transferUserInfo(userInfo)
-    self.sendPing(session)
-  }
-  
-  func sendPing(_ session: WCSession) {
-    print("Sending ping")
-    session.sendMessage(["message": "ping"], replyHandler: { (dict) in
-      print("Received pong")
-      self.numPongs += 1
-      self.pongs.setText(String(format: "%i Pongs", self.numPongs))
-      self.sendPing(session)
-    }, errorHandler: nil)
   }
   
   ////////////////////////////////////////////////////////////////////////////////
   
   func session(_ session: WCSession, didFinish fileTransfer: WCSessionFileTransfer, error: Error?) {
-    // Unused
+    print("did finish file transfer")
   }
   
   func session(_ session: WCSession, didFinish userInfoTransfer: WCSessionUserInfoTransfer, error: Error?) {
-    // Unused
     print("did finish user info transfer")
   }
   
   func sessionReachabilityDidChange(_ session: WCSession) {
-    // Unused
-  }
-  
-  func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-    // Unused
+    print("sessionReachabilityDidChange")
   }
   
   ////////////////////////////////////////////////////////////////////////////////

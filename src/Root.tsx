@@ -1,5 +1,5 @@
-import {StatusBar, StyleSheet, TextInput, TouchableOpacity, View, Text} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import {StatusBar, StyleSheet, TextInput, View} from 'react-native';
+import React, {useState} from 'react';
 
 import Spinner from 'react-native-spinkit';
 
@@ -11,25 +11,19 @@ import WatchImage from './WatchImage';
 import DualButton from './DualButton';
 import LabeledSwitch from './LabeledSwitch';
 import {
-  getIsPaired, getIsWatchAppInstalled,
   sendMessageData,
-  sendUserInfo,
   sendWatchMessage,
   transferFile,
-  updateApplicationContext,
-  useWatchMessageListener,
   useWatchReachability,
   useWatchState,
-  WatchState,
-} from 'react-native-watch-connectivity';
+} from './lib';
 import {configureAnimation} from './animation';
 import {KeyboardSpacer} from './KeyboardSpacer';
+import {usePingPongEffect} from './hooks/use-ping-pong-effect';
 
-type CustomMessage = {text: string; timestamp: number};
-type CustomReply = {elapsed: number; timestamp: number};
+type MessageToWatch = {text: string; timestamp: number};
 
 export default function Root() {
-  const [pings, setPings] = useState(0);
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState('');
   const [timeTakenToReachWatch, setTimeTakenToReachWatch] = useState<
@@ -42,44 +36,12 @@ export default function Root() {
   const watchState = useWatchState();
   const reachable = useWatchReachability();
 
-  const hasSentContext = useRef(false);
-
-  useEffect(() => {
-    if (reachable && watchState === WatchState.Activated && !hasSentContext.current) {
-      // Arbitrary user info
-      const userInfo = {id: 1, name: 'Mike'};
-      console.log('Sending user info', userInfo);
-      sendUserInfo(userInfo);
-      // Arbitrary application context
-      const context = {context: 'ABC 123'};
-      console.log('sending application context', context)
-      updateApplicationContext(context);
-      hasSentContext.current = true;
-    }
-  }, [reachable, watchState ]);
-
-  useWatchMessageListener<CustomMessage>((err, payload, replyHandler) => {
-    if (err) {
-      console.error('Error receiving message', err);
-    } else {
-      console.log('app received message', payload);
-
-      if (payload?.text === 'ping') {
-        setPings(pings + 1);
-        if (replyHandler) {
-          replyHandler({text: 'pong', timestamp: Date.now()});
-        } else {
-          console.error('no reply handler...');
-        }
-      }
-      configureAnimation();
-    }
-  });
+  const pongs = usePingPongEffect();
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <WatchImage pings={pings} />
+      <WatchImage pings={pongs} />
       <View>
         <ReachabilityText
           watchState={watchState}
@@ -108,30 +70,28 @@ export default function Root() {
                 configureAnimation();
                 setLoading(true);
 
-                sendWatchMessage<CustomMessage, CustomReply>(
-                  {text, timestamp},
-                  (err, resp) => {
-                    if (!err && resp) {
-                      // FIXME: If no error ,resp should not be null
-                      console.log('response received', resp);
-                      configureAnimation();
+                sendWatchMessage<
+                  MessageToWatch,
+                  {elapsed: number; timestamp: number}
+                >({text, timestamp}, (err, resp) => {
+                  if (!err && resp) {
+                    // FIXME: If no error ,resp should not be null
+                    console.log('response received', resp);
+                    configureAnimation();
 
-                      setTimeTakenToReachWatch(resp.elapsed);
-                      setTimeTakenToReply(
-                        new Date().getTime() - resp.timestamp,
-                      );
-                    } else {
-                      console.error('error sending message to watch', err);
-                    }
+                    setTimeTakenToReachWatch(resp.elapsed || 0);
+                    setTimeTakenToReply(new Date().getTime() - resp.timestamp);
+                  } else {
+                    console.error('error sending message to watch', err);
+                  }
 
-                    setLoading(false);
-                  },
-                );
+                  setLoading(false);
+                });
               }
             }}
             onImageButtonPress={() => {
               pickImage('Send Image To Watch', !useFileAPI)
-                .then((image) => {
+                .then(image => {
                   configureAnimation();
                   if (!image.didCancel) {
                     setLoading(true);
@@ -147,7 +107,7 @@ export default function Root() {
                     }
 
                     promise
-                      .then((resp) => {
+                      .then(resp => {
                         const endTransferTime = new Date().getTime();
                         const elapsed = endTransferTime - startTransferTime;
                         console.log(
@@ -161,7 +121,7 @@ export default function Root() {
                         setTimeTakenToReply(null);
                         setLoading(false);
                       })
-                      .catch((err) => {
+                      .catch(err => {
                         console.warn(
                           'Error sending message data',
                           err,
@@ -172,7 +132,7 @@ export default function Root() {
                       });
                   }
                 })
-                .catch((err) => {
+                .catch(err => {
                   console.error('Error picking image', err);
                 });
             }}
@@ -185,21 +145,6 @@ export default function Root() {
               onValueChange: setUseFileAPI,
             }}
           />
-          <TouchableOpacity onPress={() => {
-            const userInfo = {id: 1, name: 'Mike'};
-
-            getIsPaired().then(isPaired => {
-              console.log('isPaired', isPaired)
-            })
-
-            getIsWatchAppInstalled().then(isInstalled => {
-              console.log('isInstalled', isInstalled)
-            })
-
-            sendUserInfo(userInfo)
-          }}>
-            <Text>SEND USER INFO</Text>
-          </TouchableOpacity>
         </View>
       )}
       <KeyboardSpacer />

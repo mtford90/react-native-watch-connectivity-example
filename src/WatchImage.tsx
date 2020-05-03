@@ -16,7 +16,7 @@ export default function WatchImage({
       />
       <View style={styles.pings}>
         <Text style={styles.numPingsText}>{pings}</Text>
-        <Text style={styles.pingsText}>PINGS</Text>
+        <Text style={styles.pingsText}>PONGS</Text>
       </View>
     </View>
   );
