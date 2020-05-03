@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "esnext",
+    "module": "commonjs",
+    "lib": ["es6"],
+    "allowJs": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "jsx": "react-native",
+    "noEmit": true,
+    "strict": true,
+    "declaration": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true
+  }
+}
