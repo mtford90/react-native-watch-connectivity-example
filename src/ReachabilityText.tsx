@@ -2,7 +2,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
 import {COLORS, ROW_MARGIN} from './constants';
-import {WatchState} from './lib';
+import {WatchState} from 'react-native-watch-connectivity';
 
 function MessageTimeText({
   timeTakenToReachWatch,

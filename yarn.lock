@@ -5079,6 +5079,11 @@ react-native-spinkit@^1.5.0:
   dependencies:
     prop-types "^15.5.8"
 
+react-native-watch-connectivity@^0.5.0-alpha.3:
+  version "0.5.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/react-native-watch-connectivity/-/react-native-watch-connectivity-0.5.0-alpha.3.tgz#933bbb1111707afb6c337d7b5fb66b76faf40a4f"
+  integrity sha512-rB62W/jpNoNMCdvE9o+T4X/YU8O9MquUOXsC1czNaaXQUV8RXXOkrzcAoWjhxzoOLMHGqAAm2itkAUbEAyqr5Q==
+
 react-native@0.62.2:
   version "0.62.2"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.62.2.tgz#d831e11a3178705449142df19a70ac2ca16bad10"

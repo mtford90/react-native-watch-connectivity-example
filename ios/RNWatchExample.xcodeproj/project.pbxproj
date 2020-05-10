@@ -12,7 +12,6 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		6A45AD9F245C7949003FA7F4 /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A45AD9E245C7949003FA7F4 /* Dummy.swift */; };
-		6A6A0836245EFC4A005DE991 /* RNWatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A0834245EFC4A005DE991 /* RNWatch.m */; };
 		6AD72235234899DE00DACD18 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AD72233234899DE00DACD18 /* Interface.storyboard */; };
 		6AD72237234899E000DACD18 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AD72236234899E000DACD18 /* Assets.xcassets */; };
 		6AD7223E234899E000DACD18 /* WatchApp Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6AD7223D234899E000DACD18 /* WatchApp Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -90,8 +89,6 @@
 		5DAFEEE5185BDFA3FC6F454D /* Pods-RNWatchExample-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNWatchExample-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-RNWatchExample-tvOS/Pods-RNWatchExample-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		6A45AD9D245C7949003FA7F4 /* RNWatchExample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RNWatchExample-Bridging-Header.h"; sourceTree = "<group>"; };
 		6A45AD9E245C7949003FA7F4 /* Dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dummy.swift; sourceTree = "<group>"; };
-		6A6A0834245EFC4A005DE991 /* RNWatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNWatch.m; sourceTree = "<group>"; };
-		6A6A0835245EFC4A005DE991 /* RNWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNWatch.h; sourceTree = "<group>"; };
 		6AD72231234899DE00DACD18 /* WatchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AD72234234899DE00DACD18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		6AD72236234899E000DACD18 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -206,8 +203,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				6A6A0835245EFC4A005DE991 /* RNWatch.h */,
-				6A6A0834245EFC4A005DE991 /* RNWatch.m */,
 				13B07FAE1A68108700A75B9A /* RNWatchExample */,
 				6AD72232234899DE00DACD18 /* WatchApp */,
 				6AD72241234899E000DACD18 /* WatchApp Extension */,
@@ -324,11 +319,12 @@
 					};
 					6AD72230234899DE00DACD18 = {
 						CreatedOnToolsVersion = 11.0;
+						DevelopmentTeam = 86LFPUNNKD;
 						ProvisioningStyle = Automatic;
 					};
 					6AD7223C234899E000DACD18 = {
 						CreatedOnToolsVersion = 11.0;
-						DevelopmentTeam = B6MNS4NM69;
+						DevelopmentTeam = 86LFPUNNKD;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -450,7 +446,6 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				6A45AD9F245C7949003FA7F4 /* Dummy.swift in Sources */,
-				6A6A0836245EFC4A005DE991 /* RNWatch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -570,7 +565,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchApp Extension/Preview Content\"";
-				DEVELOPMENT_TEAM = B6MNS4NM69;
+				DEVELOPMENT_TEAM = 86LFPUNNKD;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "WatchApp Extension/Info.plist";
@@ -603,7 +598,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"WatchApp Extension/Preview Content\"";
-				DEVELOPMENT_TEAM = B6MNS4NM69;
+				DEVELOPMENT_TEAM = 86LFPUNNKD;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "WatchApp Extension/Info.plist";
@@ -633,6 +628,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 86LFPUNNKD;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				IBSC_MODULE = WatchApp_Extension;
 				INFOPLIST_FILE = WatchApp/Info.plist;
@@ -664,6 +660,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 86LFPUNNKD;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				IBSC_MODULE = WatchApp_Extension;
 				INFOPLIST_FILE = WatchApp/Info.plist;

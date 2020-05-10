@@ -4,7 +4,7 @@ import {
   useWatchReachability,
   useWatchState,
   WatchState,
-} from '../lib';
+} from 'react-native-watch-connectivity';
 
 export function usePingPongEffect() {
   const [pongs, setPongs] = useState(0);

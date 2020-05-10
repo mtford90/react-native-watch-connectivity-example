@@ -16,7 +16,7 @@ import {
   transferFile,
   useWatchReachability,
   useWatchState,
-} from './lib';
+} from 'react-native-watch-connectivity';
 import {configureAnimation} from './animation';
 import {KeyboardSpacer} from './KeyboardSpacer';
 import {usePingPongEffect} from './hooks/use-ping-pong-effect';
