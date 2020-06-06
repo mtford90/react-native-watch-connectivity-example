@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {ViewStyle, View} from 'react-native';
-import {useKeyboardListener} from './keyboard';
-import {configureAnimation} from './animation';
+import {useKeyboardListener} from '../lib/keyboard';
+import {configureAnimation} from '../lib/animation';
 
 export const KeyboardSpacer = () => {
   const [spacerStyle, setSpacerStyle] = useState<ViewStyle>({height: 0});

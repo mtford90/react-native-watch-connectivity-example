@@ -1,7 +1,7 @@
 import ReactNative from 'react-native';
 import React from 'react';
 
-import {COLORS} from './constants';
+import {COLORS} from '../constants';
 
 const {Image, View, StyleSheet, TouchableOpacity, Text} = ReactNative;
 
@@ -34,7 +34,7 @@ const DualButton = ({
         disabled={disabled || imageButtonDisabled}>
         <Image
           style={styles.cameraImageStyle}
-          source={require('./camera.png')}
+          source={require('../images/camera.png')}
         />
       </TouchableOpacity>
     </View>

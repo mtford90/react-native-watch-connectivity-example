@@ -1,7 +1,7 @@
 import {Image, StyleSheet, View, Text, ImageProps} from 'react-native';
 import React from 'react';
 
-import {ROW_MARGIN} from './constants';
+import {ROW_MARGIN} from '../constants';
 
 export default function WatchImage({
   pings = 0,
@@ -11,7 +11,7 @@ export default function WatchImage({
     <View style={styles.container}>
       <Image
         style={styles.image}
-        source={require('./watch.png')}
+        source={require('../images/watch.png')}
         {...restOfProps}
       />
       <View style={styles.pings}>

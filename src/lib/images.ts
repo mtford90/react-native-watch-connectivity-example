@@ -2,7 +2,7 @@
 
 import ImagePicker, {ImagePickerResponse} from 'react-native-image-picker';
 
-import {MAX_IMAGE_SIZE} from './constants';
+import {MAX_IMAGE_SIZE} from '../constants';
 
 export function pickImage(
   title: string,
@@ -30,7 +30,7 @@ export function pickImage(
         },
         ...extraPickerOptions,
       },
-      (response) => {
+      response => {
         const {error} = response;
         if (response.didCancel) {
           // Do nothing

@@ -8,7 +8,7 @@ import {
   Text,
 } from 'react-native';
 
-import {COLORS, ROW_MARGIN} from './constants';
+import {COLORS, ROW_MARGIN} from '../constants';
 
 type LabeledSwitchProps = {
   label: string;

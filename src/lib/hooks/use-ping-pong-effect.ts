@@ -1,10 +1,7 @@
 import {useCallback, useEffect, useState} from 'react';
-import {
-  sendWatchMessage,
-  useWatchReachability,
-  useWatchState,
-  WatchState,
-} from 'react-native-watch-connectivity';
+import {sendWatchMessage} from '../watch/messages';
+import {WatchState} from '../watch/state';
+import {useWatchReachability, useWatchState} from '../watch/hooks';
 
 export function usePingPongEffect() {
   const [pongs, setPongs] = useState(0);

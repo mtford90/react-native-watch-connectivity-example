@@ -40,7 +40,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Send photos to watch</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Send images to watch</string>
 	<key>UILaunchStoryboardName</key>
@@ -57,5 +57,16 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>JetBrainsMono-Bold-Italic.ttf</string>
+		<string>JetBrainsMono-Bold.ttf</string>
+		<string>JetBrainsMono-ExtraBold-Italic.ttf</string>
+		<string>JetBrainsMono-ExtraBold.ttf</string>
+		<string>JetBrainsMono-Italic.ttf</string>
+		<string>JetBrainsMono-Medium-Italic.ttf</string>
+		<string>JetBrainsMono-Medium.ttf</string>
+		<string>JetBrainsMono-Regular.ttf</string>
+	</array>
 </dict>
 </plist>
