@@ -1,4 +1,5 @@
 import {MessagesIntegrationTest} from './message-tests';
+import {UserInfoIntegrationTest} from './user-info-tests';
 
 export type TestFn = (log: (str: string) => void) => Promise<void>;
 
@@ -12,6 +13,6 @@ export interface TestSection {
   data: Test[];
 }
 
-export default function getTests(): TestSection[] {
-  return [{title: 'Messages', data: new MessagesIntegrationTest().tests}];
-}
+const tests = [new MessagesIntegrationTest(), new UserInfoIntegrationTest()];
+
+export default tests;

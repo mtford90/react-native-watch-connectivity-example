@@ -13,7 +13,6 @@ export function subscribeToUserInfo<
   UserInfo extends WatchPayload = WatchPayload
 >(cb: UserInfoListener<UserInfo>) {
   // noinspection JSIgnoredPromiseFromCall
-  getUserInfo<UserInfo>((_err, userInfo) => cb(userInfo));
   return _subscribeToNativeWatchEvent<
     NativeWatchEvent.EVENT_WATCH_USER_INFO_RECEIVED,
     UserInfo
@@ -27,11 +26,13 @@ export function sendUserInfo<UserInfo extends WatchPayload = WatchPayload>(
 }
 
 export function getUserInfo<UserInfo extends WatchPayload = WatchPayload>(
-  cb: (err: null, info: UserInfo) => void,
+  cb?: (err: null, info: UserInfo) => void,
 ) {
   return new Promise((resolve) => {
     NativeModule.getUserInfo<UserInfo>((info) => {
-      cb(null, info);
+      if (cb) {
+        cb(null, info);
+      }
       resolve(info);
     });
   });

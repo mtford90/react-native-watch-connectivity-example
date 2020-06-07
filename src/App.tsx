@@ -16,20 +16,14 @@ Promise.config({
 });
 
 import 'mobx-react-lite/batchingForReactNative';
-import {MessagesIntegrationTest} from './lib/testing/tests/message-tests';
+import tests from './lib/testing/tests';
 
 configure({
   enforceActions: 'observed',
 });
 
 export default function App() {
-  const testRunner = useMemo(
-    () =>
-      new TestRunner([
-        {title: 'Messages', data: new MessagesIntegrationTest().tests},
-      ]),
-    [],
-  );
+  const testRunner = useMemo(() => new TestRunner(tests), []);
 
   return (
     <TestRunnerProvider value={testRunner}>

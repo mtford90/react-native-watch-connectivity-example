@@ -76,6 +76,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         }, errorHandler: { (error) in
           print("Error sending message: %@", error)
         })
+      } else if (text == "send me some user info") {
+        session.transferUserInfo(["uid": "xyz", "name": "bob", "email": "bob@example.com"])
       }
     } else {
       if (message["ping"] != nil) {
@@ -123,6 +125,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
 
   func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any]) {
     print("did receive user info", userInfo)
+    self.session?.sendMessage(["user-info": userInfo, "text": "user info received by the watch"], replyHandler: { (response) in
+    })
   }
 
   ////////////////////////////////////////////////////////////////////////////////

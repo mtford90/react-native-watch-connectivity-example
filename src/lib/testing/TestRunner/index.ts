@@ -1,6 +1,7 @@
 import {action, computed, observable, runInAction} from 'mobx';
 import {Test, TestSection} from '../tests';
 import {flatten, keys, some, keyBy} from 'lodash';
+import {IntegrationTest} from '../IntegrationTest';
 
 type TestStatus =
   | {status: 'pending'}
@@ -19,8 +20,8 @@ export default class TestRunner {
   @observable
   logs: {[name: string]: [number, string][]} = {};
 
-  constructor(tests: TestSection[]) {
-    this.tests = tests;
+  constructor(tests: IntegrationTest[]) {
+    this.tests = tests.map((t) => ({title: t.title, data: t.tests}));
     this.testsByName = keyBy(flatten(this.tests.map((t) => t.data)), 'name');
     this.testStatus = Object.fromEntries(
       keys(this.testsByName).map((name): [string, TestStatus] => [

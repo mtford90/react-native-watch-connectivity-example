@@ -1,11 +1,10 @@
 import {sendWatchMessage, subscribeToMessages} from '../../watch/messages';
 import {IntegrationTest} from '../IntegrationTest';
-
-type TestLogFn = (str: string) => void;
+import {TestLogFn} from './util';
 
 export class MessagesIntegrationTest extends IntegrationTest {
   constructor() {
-    super();
+    super('Messages');
     this.registerTest('Send message', this.testSendMessage);
     this.registerTest('Subscribe to messages', this.testSubscribeToMessages);
     this.registerTest(
