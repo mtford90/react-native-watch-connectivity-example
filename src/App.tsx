@@ -1,19 +1,35 @@
 import * as React from 'react';
 import Drawer from './navigators/drawer';
 import {NavigationContainer} from '@react-navigation/native';
-import {TestRunnerProvider} from './lib/tests/context';
+import {TestRunnerProvider} from './lib/testing/TestRunner/context';
 import {useMemo} from 'react';
-import TestRunner from './lib/tests/TestRunner';
+import TestRunner from './lib/testing/TestRunner';
 import {configure} from 'mobx';
+import 'bluebird-global';
+
+Promise.config({
+  longStackTraces: true,
+  warnings: {
+    // async/await seems to screw with bluebird and generate false warnings...
+    wForgottenReturn: false,
+  },
+});
 
 import 'mobx-react-lite/batchingForReactNative';
+import {MessagesIntegrationTest} from './lib/testing/tests/message-tests';
 
 configure({
-  enforceActions: 'always',
+  enforceActions: 'observed',
 });
 
 export default function App() {
-  const testRunner = useMemo(() => new TestRunner(), []);
+  const testRunner = useMemo(
+    () =>
+      new TestRunner([
+        {title: 'Messages', data: new MessagesIntegrationTest().tests},
+      ]),
+    [],
+  );
 
   return (
     <TestRunnerProvider value={testRunner}>

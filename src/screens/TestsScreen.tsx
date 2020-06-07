@@ -8,8 +8,8 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import tests, {Test} from '../lib/tests/tests';
-import {useTestRunner} from '../lib/tests/context';
+import {Test} from '../lib/testing/tests';
+import {useTestRunner} from '../lib/testing/TestRunner/context';
 import {observer} from 'mobx-react-lite';
 import Icon from '../components/Icon';
 import {COLORS} from '../constants';
@@ -19,8 +19,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
-    padding: 10,
-    paddingBottom: 10,
+    flex: 1,
   },
   test: {
     padding: 10,
@@ -64,14 +63,17 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 20,
   },
+  sectionHeader: {
+    flexDirection: 'row',
+    padding: 10,
+    alignItems: 'center',
+  },
 });
 
 const TestItem = observer(({item}: {item: Test}) => {
   const testRunner = useTestRunner();
 
   const state = testRunner.testStatus[item.name];
-
-  console.log('status', state);
 
   const logs = testRunner.logs[item.name] || [];
 
@@ -93,7 +95,7 @@ const TestItem = observer(({item}: {item: Test}) => {
         )}
         <Text style={styles.testText}>{item.name}</Text>
         <TouchableOpacity
-          disabled={state.status === 'running'}
+          disabled={testRunner.running}
           onPress={() => {
             testRunner.runTest(item.name);
           }}>
@@ -102,8 +104,8 @@ const TestItem = observer(({item}: {item: Test}) => {
       </View>
       {(Boolean(logs.length) || state.status === 'failed') && (
         <View style={styles.logs}>
-          {logs.map((log) => (
-            <Text key={log} style={styles.logText}>
+          {logs.map(([ts, log]) => (
+            <Text key={ts} style={styles.logText}>
               {log}
             </Text>
           ))}
@@ -119,13 +121,27 @@ const TestItem = observer(({item}: {item: Test}) => {
 });
 
 const TestsScreen = function TestsScreen() {
+  const testRunner = useTestRunner();
+
   return (
     <Layout title="tests">
       <SectionList
-        sections={tests}
+        sections={testRunner.tests}
+        stickySectionHeadersEnabled={false}
         keyExtractor={(item) => item.name}
         renderSectionHeader={({section}) => {
-          return <Text style={styles.sectionTitle}>{section.title}</Text>;
+          return (
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>{section.title}</Text>
+              <TouchableOpacity
+                disabled={testRunner.running}
+                onPress={() => {
+                  testRunner.runTests(section.data.map((d) => d.name));
+                }}>
+                <Text style={styles.runButtonText}>Run All</Text>
+              </TouchableOpacity>
+            </View>
+          );
         }}
         renderItem={({item}) => {
           return <TestItem item={item} />;

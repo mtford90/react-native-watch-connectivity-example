@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import TestRunner from './TestRunner';
+import TestRunner from './index';
 
 const Context = React.createContext<TestRunner>(null as any);
 
