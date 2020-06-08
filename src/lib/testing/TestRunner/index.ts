@@ -37,17 +37,39 @@ export default class TestRunner {
   }
 
   @action
+  clear() {
+    if (!this.running) {
+      this.logs = {};
+      this.testStatus = this.testStatus = Object.fromEntries(
+        keys(this.testsByName).map((name): [string, TestStatus] => [
+          name,
+          {status: 'pending'},
+        ]),
+      );
+    }
+  }
+
+  @action
   runTests(names: string[]) {
     if (this.running) {
       return;
     }
+
+    console.log(`running ${names.length} tests`);
 
     names.forEach((name) => {
       this.logs[name] = [];
       this.testStatus[name] = {status: 'running'};
     });
 
-    Promise.mapSeries(names, (name) => this._runTest(name)).then(
+    Promise.mapSeries(names, async (name) => {
+      console.log(`running ${name}`);
+      try {
+        await this._runTest(name);
+      } catch (err) {
+        console.log(`error running ${name}`);
+      }
+    }).then(
       () => {
         return null;
       },
@@ -92,48 +114,52 @@ export default class TestRunner {
     let isTimedOut = false;
     let timeout: ReturnType<typeof setTimeout> | null = null;
 
-    const promise = test
-      .run((text) => {
-        this.log(name, text);
-      })
-      .then(() => {
-        if (!isTimedOut) {
-          console.log(`[${name}] passed`);
-          runInAction(() => {
-            this.testStatus[name] = {status: 'passed'};
-          });
-        }
+    return new Promise((resolve, reject) => {
+      test
+        .run((text) => {
+          this.log(name, text);
+        })
+        .then(() => {
+          if (!isTimedOut) {
+            console.log(`[${name}] passed`);
+            runInAction(() => {
+              this.testStatus[name] = {status: 'passed'};
+            });
+            resolve();
+          }
 
-        if (timeout) {
-          clearTimeout(timeout);
-        }
+          if (timeout) {
+            clearTimeout(timeout);
+          }
 
-        return null;
-      })
-      .catch((err: Error) => {
-        if (!isTimedOut) {
-          console.error(`[${name}] error`, err);
-          runInAction(() => {
-            this.testStatus[name] = {status: 'failed', error: err};
-          });
-        }
+          return null;
+        })
+        .catch((err: Error) => {
+          if (!isTimedOut) {
+            console.error(`[${name}] error`, err);
+            runInAction(() => {
+              this.testStatus[name] = {status: 'failed', error: err};
+            });
+            reject(err);
+          }
 
-        if (timeout) {
-          clearTimeout(timeout);
-        }
-      });
+          if (timeout) {
+            clearTimeout(timeout);
+          }
+        });
 
-    timeout = setTimeout(() => {
-      isTimedOut = true;
-      runInAction(() => {
-        console.warn(`[${name}] timed out`);
-        this.testStatus[name] = {
-          status: 'failed',
-          error: new Error('Timed out'),
-        };
-      });
-    }, 10000);
-
-    return promise;
+      timeout = setTimeout(() => {
+        isTimedOut = true;
+        runInAction(() => {
+          console.warn(`[${name}] timed out`);
+          const error = new Error('Timed out');
+          this.testStatus[name] = {
+            status: 'failed',
+            error,
+          };
+          reject(error);
+        });
+      }, 10000);
+    });
   }
 }

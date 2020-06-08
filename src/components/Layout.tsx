@@ -41,23 +41,25 @@ const style = StyleSheet.create({
 export default function Layout({
   children,
   title = '',
+  left,
 }: {
   children: React.ReactNode;
   title?: string;
+  left?: React.ReactNode;
 }) {
   const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
 
   return (
     <SafeAreaView style={style.container}>
       <View style={style.header}>
-        <View style={style.left} />
+        <View style={style.left}>{left}</View>
         <Text style={style.title}>{title}</Text>
         <TouchableOpacity
           style={style.rightButton}
           onPress={() => {
             navigation.toggleDrawer();
           }}>
-          <Icon name="drawer" color={COLORS.orange} height={30} width={30} />
+          <Icon name="drawer" color="white" height={30} width={30} />
         </TouchableOpacity>
       </View>
       <View style={style.content}>{children}</View>

@@ -26,7 +26,6 @@ export class UserInfoIntegrationTest extends IntegrationTest {
   };
 
   testSubscribeToUserInfo = async (log: TestLogFn) => {
-    // TODO: Test receipt of user info from the watch this time
     return new Promise((resolve, reject) => {
       const expectedUserInfo = {
         uid: 'xyz',

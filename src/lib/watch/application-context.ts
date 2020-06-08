@@ -13,7 +13,6 @@ export function subscribeToApplicationContext<
   Context extends WatchPayload = WatchPayload
 >(cb: ApplicationContextListener<Context>) {
   // noinspection JSIgnoredPromiseFromCall
-  getApplicationContext(cb);
   return _subscribeToNativeWatchEvent<
     NativeWatchEvent.EVENT_APPLICATION_CONTEXT_RECEIVED,
     Context
@@ -22,10 +21,12 @@ export function subscribeToApplicationContext<
 
 export function getApplicationContext<
   Context extends WatchPayload = WatchPayload
->(cb: (err: null, context: Context | null) => void) {
+>(cb?: (err: null, context: Context | null) => void) {
   return new Promise((resolve) => {
     NativeModule.getApplicationContext<Context>((context) => {
-      cb(null, context);
+      if (cb) {
+        cb(null, context);
+      }
       resolve(context);
     });
   });

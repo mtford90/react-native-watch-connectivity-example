@@ -7,12 +7,14 @@ import {
   View,
   ActivityIndicator,
   TouchableOpacity,
+  ViewStyle,
 } from 'react-native';
 import {Test} from '../lib/testing/tests';
 import {useTestRunner} from '../lib/testing/TestRunner/context';
 import {observer} from 'mobx-react-lite';
 import Icon from '../components/Icon';
 import {COLORS} from '../constants';
+import {useWatchReachability} from '../lib/watch/hooks';
 
 const styles = StyleSheet.create({
   sectionTitle: {
@@ -68,13 +70,28 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
   },
+  clearTouchable: {
+    alignItems: 'flex-start',
+    paddingLeft: 5,
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  disabledTouchable: {
+    opacity: 0.5,
+  },
+  reachabilityWarning: {
+    padding: 10,
+    backgroundColor: COLORS.orange,
+  },
+  reachabilityWarningText: {
+    color: 'black',
+  },
 });
 
 const TestItem = observer(({item}: {item: Test}) => {
   const testRunner = useTestRunner();
-
   const state = testRunner.testStatus[item.name];
-
   const logs = testRunner.logs[item.name] || [];
 
   return (
@@ -94,13 +111,12 @@ const TestItem = observer(({item}: {item: Test}) => {
           </View>
         )}
         <Text style={styles.testText}>{item.name}</Text>
-        <TouchableOpacity
-          disabled={testRunner.running}
+        <TestButton
+          label="Run"
           onPress={() => {
             testRunner.runTest(item.name);
-          }}>
-          <Text style={styles.runButtonText}>Run</Text>
-        </TouchableOpacity>
+          }}
+        />
       </View>
       {(Boolean(logs.length) || state.status === 'failed') && (
         <View style={styles.logs}>
@@ -120,11 +136,56 @@ const TestItem = observer(({item}: {item: Test}) => {
   );
 });
 
+const TestButton = observer(
+  ({
+    onPress,
+    label,
+    style,
+  }: {
+    onPress: () => void;
+    label: string;
+    style?: ViewStyle;
+  }) => {
+    const reachable = useWatchReachability();
+    const testRunner = useTestRunner();
+
+    let disabled = testRunner.running || !reachable;
+
+    return (
+      <TouchableOpacity
+        style={[style, disabled && styles.disabledTouchable]}
+        disabled={disabled}
+        onPress={onPress}>
+        <Text style={styles.runButtonText}>{label}</Text>
+      </TouchableOpacity>
+    );
+  },
+);
+
 const TestsScreen = function TestsScreen() {
   const testRunner = useTestRunner();
 
+  const reachable = useWatchReachability();
+
   return (
-    <Layout title="tests">
+    <Layout
+      title="tests"
+      left={
+        <TestButton
+          style={styles.clearTouchable}
+          onPress={() => {
+            testRunner.clear();
+          }}
+          label="Clear"
+        />
+      }>
+      {!reachable && (
+        <View style={styles.reachabilityWarning}>
+          <Text style={styles.reachabilityWarningText}>
+            You cannot run tests until the watch session is reachable
+          </Text>
+        </View>
+      )}
       <SectionList
         sections={testRunner.tests}
         stickySectionHeadersEnabled={false}
@@ -133,13 +194,12 @@ const TestsScreen = function TestsScreen() {
           return (
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>{section.title}</Text>
-              <TouchableOpacity
-                disabled={testRunner.running}
+              <TestButton
+                label="Run All"
                 onPress={() => {
                   testRunner.runTests(section.data.map((d) => d.name));
-                }}>
-                <Text style={styles.runButtonText}>Run All</Text>
-              </TouchableOpacity>
+                }}
+              />
             </View>
           );
         }}

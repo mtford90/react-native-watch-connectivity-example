@@ -78,6 +78,13 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         })
       } else if (text == "send me some user info") {
         session.transferUserInfo(["uid": "xyz", "name": "bob", "email": "bob@example.com"])
+      } else if (text == "send me some application context") {
+        do {
+          try session.updateApplicationContext(message["context"] as! [String : Any])
+          print("updated the application context")
+        } catch {
+          print("Unexpected error when updating application context: \(error).")
+        }
       }
     } else {
       if (message["ping"] != nil) {
@@ -119,6 +126,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
 
   func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
     print("did receive application context", applicationContext)
+    self.session?.sendMessage(["application-context": applicationContext, "text": "application context received by the watch"], replyHandler: { (response) in
+    })
   }
 
   ////////////////////////////////////////////////////////////////////////////////

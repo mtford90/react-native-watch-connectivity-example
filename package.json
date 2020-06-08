@@ -28,7 +28,9 @@
     "@react-navigation/stack": "^5.4.2",
     "@react-navigation/drawer": "^5.8.2",
     "bluebird": "^3.7.2",
-    "bluebird-global": "^1.0.1"
+    "bluebird-global": "^1.0.1",
+    "faker": "^4.1.0",
+    "@types/faker": "^4.1.12"
   },
   "lint-staged": {
     "package.json": [

@@ -1,5 +1,7 @@
 import {MessagesIntegrationTest} from './message-tests';
 import {UserInfoIntegrationTest} from './user-info-tests';
+import {ReachabilityIntegrationTest} from './reachability-tests';
+import {ApplicationContextTests} from './application-context-tests';
 
 export type TestFn = (log: (str: string) => void) => Promise<void>;
 
@@ -13,6 +15,11 @@ export interface TestSection {
   data: Test[];
 }
 
-const tests = [new MessagesIntegrationTest(), new UserInfoIntegrationTest()];
+const tests = [
+  new MessagesIntegrationTest(),
+  new UserInfoIntegrationTest(),
+  new ReachabilityIntegrationTest(),
+  new ApplicationContextTests(),
+];
 
 export default tests;
