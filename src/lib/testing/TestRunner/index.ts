@@ -50,36 +50,6 @@ export default class TestRunner {
   }
 
   @action
-  runTests(names: string[]) {
-    if (this.running) {
-      return;
-    }
-
-    console.log(`running ${names.length} tests`);
-
-    names.forEach((name) => {
-      this.logs[name] = [];
-      this.testStatus[name] = {status: 'running'};
-    });
-
-    Promise.mapSeries(names, async (name) => {
-      console.log(`running ${name}`);
-      try {
-        await this._runTest(name);
-      } catch (err) {
-        console.log(`error running ${name}`);
-      }
-    }).then(
-      () => {
-        return null;
-      },
-      (err) => {
-        console.error(err);
-      },
-    );
-  }
-
-  @action
   runTest(name: string) {
     const test = this.testsByName[name];
 
@@ -159,7 +129,7 @@ export default class TestRunner {
           };
           reject(error);
         });
-      }, 10000);
+      }, 30000);
     });
   }
 }

@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ViewStyle,
 } from 'react-native';
-import {Test} from '../lib/testing/tests';
+import {Test, TestMode} from '../lib/testing/tests';
 import {useTestRunner} from '../lib/testing/TestRunner/context';
 import {observer} from 'mobx-react-lite';
 import Icon from '../components/Icon';
@@ -80,13 +80,6 @@ const styles = StyleSheet.create({
   disabledTouchable: {
     opacity: 0.5,
   },
-  reachabilityWarning: {
-    padding: 10,
-    backgroundColor: COLORS.orange,
-  },
-  reachabilityWarningText: {
-    color: 'black',
-  },
 });
 
 const TestItem = observer(({item}: {item: Test}) => {
@@ -113,6 +106,7 @@ const TestItem = observer(({item}: {item: Test}) => {
         <Text style={styles.testText}>{item.name}</Text>
         <TestButton
           label="Run"
+          mode={item.mode}
           onPress={() => {
             testRunner.runTest(item.name);
           }}
@@ -140,16 +134,21 @@ const TestButton = observer(
   ({
     onPress,
     label,
+    mode = 'default',
     style,
   }: {
     onPress: () => void;
     label: string;
+    mode?: TestMode;
     style?: ViewStyle;
   }) => {
     const reachable = useWatchReachability();
     const testRunner = useTestRunner();
 
-    let disabled = testRunner.running || !reachable;
+    let disabled =
+      testRunner.running ||
+      (mode === 'reachable' && !reachable) ||
+      (mode === 'unreachable' && reachable);
 
     return (
       <TouchableOpacity
@@ -165,8 +164,6 @@ const TestButton = observer(
 const TestsScreen = function TestsScreen() {
   const testRunner = useTestRunner();
 
-  const reachable = useWatchReachability();
-
   return (
     <Layout
       title="tests"
@@ -179,27 +176,17 @@ const TestsScreen = function TestsScreen() {
           label="Clear"
         />
       }>
-      {!reachable && (
-        <View style={styles.reachabilityWarning}>
-          <Text style={styles.reachabilityWarningText}>
-            You cannot run tests until the watch session is reachable
-          </Text>
-        </View>
-      )}
       <SectionList
         sections={testRunner.tests}
         stickySectionHeadersEnabled={false}
+        contentContainerStyle={{
+          paddingBottom: 20,
+        }}
         keyExtractor={(item) => item.name}
         renderSectionHeader={({section}) => {
           return (
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>{section.title}</Text>
-              <TestButton
-                label="Run All"
-                onPress={() => {
-                  testRunner.runTests(section.data.map((d) => d.name));
-                }}
-              />
             </View>
           );
         }}

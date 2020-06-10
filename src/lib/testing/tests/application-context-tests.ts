@@ -13,9 +13,14 @@ import * as faker from 'faker';
 export class ApplicationContextTests extends IntegrationTest {
   constructor() {
     super('Application Context');
-    this.registerTest('Send application context', this.testApplicationContext);
+    this.registerTest(
+      'Send application context',
+      'reachable',
+      this.testApplicationContext,
+    );
     this.registerTest(
       'Subscribe to application context',
+      'reachable',
       this.testSubscribeToApplicationContext,
     );
   }

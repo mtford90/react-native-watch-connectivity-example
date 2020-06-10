@@ -8,16 +8,21 @@ import {
 import {isEqual} from 'lodash';
 import {assert, TestLogFn} from './util';
 import {sendWatchMessage, subscribeToMessages} from '../../watch/messages';
+import * as faker from 'faker';
 
 export class UserInfoIntegrationTest extends IntegrationTest {
   constructor() {
     super('User Info');
-    this.registerTest('Send user info', this.testUserInfo);
-    this.registerTest('Subscribe to user info', this.testSubscribeToUserInfo);
+    this.registerTest('Send user info', 'reachable', this.testUserInfo);
+    this.registerTest(
+      'Subscribe to user info',
+      'reachable',
+      this.testSubscribeToUserInfo,
+    );
   }
 
   testUserInfo = async (log: TestLogFn) => {
-    const sentUserInfo = {uid: 'xyz', name: 'bob', email: 'bob@example.com'};
+    const sentUserInfo = {uid: faker.lorem.word(), name: faker.lorem.words(2)};
     await this.sendUserInfoAndWaitForAck(sentUserInfo, log);
     const userInfo = await getUserInfo();
     log('got user info: ' + JSON.stringify(userInfo));

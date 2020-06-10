@@ -1,7 +1,13 @@
 import {subscribeToMessages, WatchMessageListener} from './messages';
 import {useEffect, useState} from 'react';
-import {subscribeToWatchState, WatchState, WatchStateListener} from './state';
 import {
+  getWatchState,
+  subscribeToWatchState,
+  WatchState,
+  WatchStateListener,
+} from './state';
+import {
+  getWatchReachability,
   subscribeToWatchReachability,
   WatchReachabilityListener,
 } from './reachability';
@@ -54,6 +60,10 @@ export function useApplicationContextListener<
 export function useWatchReachability() {
   const [reachability, setReachability] = useState(false);
 
+  useEffect(() => {
+    getWatchReachability().then(setReachability);
+  }, []);
+
   useWatchReachabilityListener(setReachability);
 
   return reachability;
@@ -61,6 +71,10 @@ export function useWatchReachability() {
 
 export function useWatchState() {
   const [watchState, setWatchState] = useState(WatchState.NotActivated);
+
+  useEffect(() => {
+    getWatchState().then(setWatchState);
+  }, []);
 
   useWatchStateListener(setWatchState);
 

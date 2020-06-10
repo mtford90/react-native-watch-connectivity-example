@@ -108,11 +108,22 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
 
   func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
     let currentTimestamp: Double = Date().timeIntervalSince1970 * 1000
-    let decodedData = Data(base64Encoded: messageData, options: NSData.Base64DecodingOptions(rawValue: 0))
-    self.image.setImageData(decodedData)
-    let json: String = JSONStringify(["currentTimestamp": currentTimestamp])
-    let data: Data = json.data(using: String.Encoding.utf8)!
-    replyHandler(data)
+    
+    let str = String(data: messageData, encoding: .utf8)
+        
+    print("recevied message data %@", str as Any)
+    
+    if (str == "hello") {
+      let utf8str = "hi there".data(using: .utf8)
+      print("sending message data %@", utf8str as Any)
+      replyHandler(utf8str!)
+    } else {
+      let decodedData = Data(base64Encoded: messageData, options: NSData.Base64DecodingOptions(rawValue: 0))
+      self.image.setImageData(decodedData)
+      let json: String = JSONStringify(["currentTimestamp": currentTimestamp])
+      let data: Data = json.data(using: String.Encoding.utf8)!
+      replyHandler(data)
+    }
   }
 
   ////////////////////////////////////////////////////////////////////////////////

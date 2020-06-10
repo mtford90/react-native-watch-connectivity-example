@@ -5,10 +5,15 @@ import {TestLogFn} from './util';
 export class MessagesIntegrationTest extends IntegrationTest {
   constructor() {
     super('Messages');
-    this.registerTest('Send message', this.testSendMessage);
-    this.registerTest('Subscribe to messages', this.testSubscribeToMessages);
+    this.registerTest('Send message', 'reachable', this.testSendMessage);
+    this.registerTest(
+      'Subscribe to messages',
+      'reachable',
+      this.testSubscribeToMessages,
+    );
     this.registerTest(
       'Reply to messages from watch',
+      'reachable',
       this.testReplyToMessagesFromWatch,
     );
   }

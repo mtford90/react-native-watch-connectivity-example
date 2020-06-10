@@ -93,7 +93,7 @@ export default function HomeScreen() {
               }}
               onImageButtonPress={() => {
                 pickImage('Send Image To Watch', !useFileAPI)
-                  .then(image => {
+                  .then((image) => {
                     configureAnimation();
                     if (!image.didCancel) {
                       setLoading(true);
@@ -109,7 +109,7 @@ export default function HomeScreen() {
                       }
 
                       promise
-                        .then(resp => {
+                        .then((resp) => {
                           const endTransferTime = new Date().getTime();
                           const elapsed = endTransferTime - startTransferTime;
                           console.log(
@@ -123,7 +123,7 @@ export default function HomeScreen() {
                           setTimeTakenToReply(null);
                           setLoading(false);
                         })
-                        .catch(err => {
+                        .catch((err) => {
                           console.warn(
                             'Error sending message data',
                             err,
@@ -134,7 +134,7 @@ export default function HomeScreen() {
                         });
                     }
                   })
-                  .catch(err => {
+                  .catch((err) => {
                     console.error('Error picking image', err);
                   });
               }}
