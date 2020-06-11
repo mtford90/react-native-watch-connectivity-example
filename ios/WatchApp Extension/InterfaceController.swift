@@ -57,7 +57,6 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
 
     if (isTest) {
       let text = message["text"] as? String
-      print("is test", text)
 
       if (text == "Reply to this message") {
         let response = ["text": "Here is your reply"]
@@ -78,6 +77,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         })
       } else if (text == "send me some user info") {
         session.transferUserInfo(["uid": "xyz", "name": "bob", "email": "bob@example.com"])
+      } else if (text == "send me some more user info") {
+        session.transferUserInfo(["uid": "abc", "name": "mike", "email": "mike@example.com"])
       } else if (text == "send me some application context") {
         do {
           try session.updateApplicationContext(message["context"] as! [String : Any])

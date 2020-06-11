@@ -1,12 +1,12 @@
 import {WatchPayload} from '../native-module';
-import {getUserInfo, subscribeToUserInfo} from '../user-info';
+import {getQueuedUserInfo, subscribeToUserInfo, EnqueuedUserInfo} from '../user-info';
 import {useEffect, useState} from 'react';
 
 export function useUserInfo<UserInfo extends WatchPayload = WatchPayload>() {
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [userInfo, setUserInfo] = useState<EnqueuedUserInfo<UserInfo>[]>([]);
 
   useEffect(() => {
-    getUserInfo<UserInfo>().then(setUserInfo);
+    getQueuedUserInfo<UserInfo>().then(setUserInfo);
     return subscribeToUserInfo<UserInfo>(setUserInfo);
   }, []);
 

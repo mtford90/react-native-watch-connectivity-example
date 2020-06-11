@@ -14,7 +14,7 @@ import {useTestRunner} from '../lib/testing/TestRunner/context';
 import {observer} from 'mobx-react-lite';
 import Icon from '../components/Icon';
 import {COLORS} from '../constants';
-import {useWatchReachability} from '../lib/watch/hooks';
+import {useWatchReachability} from '../lib/watch/hooks/reachability';
 
 const styles = StyleSheet.create({
   sectionTitle: {

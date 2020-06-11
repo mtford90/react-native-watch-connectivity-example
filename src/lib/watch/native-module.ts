@@ -19,13 +19,23 @@ export type FileTransferInfo = {
   id: string;
 };
 
+export interface UserInfoQueue<UserInfo extends WatchPayload = WatchPayload> {
+  [timestamp: string]: UserInfo;
+}
+
 export interface IRNWatchNativeModule extends EventSubscriptionVendor {
   getSessionState: (cb: (state: WCWatchState) => void) => void;
 
   sendUserInfo: <UserInfo extends WatchPayload>(userInfo: UserInfo) => void;
-
   getUserInfo: <UserInfo extends WatchPayload>(
-    cb: (userInfo: UserInfo) => void,
+    cb: (userInfo: UserInfoQueue<UserInfo>) => void,
+  ) => void;
+  clearUserInfoQueue: <UserInfo extends WatchPayload>(
+    cb: (userInfo: UserInfoQueue<UserInfo>) => void,
+  ) => void;
+  dequeueUserInfo: <UserInfo extends WatchPayload>(
+    ids: string[],
+    cb: (userInfo: UserInfoQueue<UserInfo>) => void,
   ) => void;
 
   sendComplicationUserInfo: (userInfo: WatchPayload) => void;

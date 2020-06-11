@@ -1,5 +1,5 @@
 import {NativeEventEmitter} from 'react-native';
-import {NativeModule, WatchPayload} from './native-module';
+import {NativeModule, UserInfoQueue, WatchPayload} from './native-module';
 
 export const watchEmitter = new NativeEventEmitter(NativeModule);
 
@@ -34,7 +34,9 @@ export interface NativeWatchEventPayloads {
   [NativeWatchEvent.EVENT_WATCH_REACHABILITY_CHANGED]: {
     reachability: boolean;
   };
-  [NativeWatchEvent.EVENT_WATCH_USER_INFO_RECEIVED]: WatchPayload;
+  [NativeWatchEvent.EVENT_WATCH_USER_INFO_RECEIVED]: UserInfoQueue<
+    WatchPayload
+  >;
   [NativeWatchEvent.EVENT_APPLICATION_CONTEXT_RECEIVED]: WatchPayload | null;
   [NativeWatchEvent.EVENT_FILE_TRANSFER_PROGRESS]: {
     completedUnitCount: number;
