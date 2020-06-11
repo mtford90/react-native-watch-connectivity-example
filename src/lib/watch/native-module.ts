@@ -23,6 +23,7 @@ export interface IRNWatchNativeModule extends EventSubscriptionVendor {
   getSessionState: (cb: (state: WCWatchState) => void) => void;
 
   sendUserInfo: <UserInfo extends WatchPayload>(userInfo: UserInfo) => void;
+
   getUserInfo: <UserInfo extends WatchPayload>(
     cb: (userInfo: UserInfo) => void,
   ) => void;

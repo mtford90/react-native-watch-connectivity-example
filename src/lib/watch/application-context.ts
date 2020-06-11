@@ -21,7 +21,7 @@ export function subscribeToApplicationContext<
 
 export function getApplicationContext<
   Context extends WatchPayload = WatchPayload
->(cb?: (err: null, context: Context | null) => void) {
+>(cb?: (err: null, context: Context | null) => void): Promise<Context | null> {
   return new Promise((resolve) => {
     NativeModule.getApplicationContext<Context>((context) => {
       if (cb) {

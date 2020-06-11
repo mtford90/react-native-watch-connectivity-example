@@ -15,10 +15,11 @@ import {configureAnimation} from '../lib/animation';
 import {KeyboardSpacer} from '../components/KeyboardSpacer';
 import {usePingPongEffect} from '../lib/hooks/use-ping-pong-effect';
 import Layout from '../components/Layout';
-import {useWatchReachability, useWatchState} from '../lib/watch/hooks';
+import {useWatchReachability} from '../lib/watch/hooks';
 import {sendWatchMessage} from '../lib/watch/messages';
 import {startFileTransfer} from '../lib/watch/files';
 import {sendMessageData} from '../lib/watch/message-data';
+import {useWatchState} from "../lib/watch/hooks/state";
 
 type MessageToWatch = {text: string; timestamp: number};
 

@@ -1,9 +1,5 @@
 import {IntegrationTest} from '../IntegrationTest';
-import {
-  getUserInfo,
-  sendUserInfo,
-  subscribeToUserInfo,
-} from '../../watch/user-info';
+import {sendUserInfo, subscribeToUserInfo} from '../../watch/user-info';
 
 import {isEqual} from 'lodash';
 import {assert, TestLogFn} from './util';
@@ -23,15 +19,15 @@ export class UserInfoIntegrationTest extends IntegrationTest {
 
   testUserInfo = async (log: TestLogFn) => {
     const sentUserInfo = {uid: faker.lorem.word(), name: faker.lorem.words(2)};
-    await this.sendUserInfoAndWaitForAck(sentUserInfo, log);
-    const userInfo = await getUserInfo();
-    log('got user info: ' + JSON.stringify(userInfo));
-
-    assert(isEqual(userInfo, sentUserInfo), 'user info must match');
+    const receivedUserInfo = await this.sendUserInfoAndWaitForAck(
+      sentUserInfo,
+      log,
+    );
+    assert(isEqual(sentUserInfo, receivedUserInfo));
   };
 
   testSubscribeToUserInfo = async (log: TestLogFn) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const expectedUserInfo = {
         uid: 'xyz',
         name: 'bob',
@@ -45,16 +41,6 @@ export class UserInfoIntegrationTest extends IntegrationTest {
         );
         unsubscribe();
         assert(isEqual(userInfoFromEvent, expectedUserInfo));
-        getUserInfo()
-          .then((userInfoFromGetter) => {
-            log(
-              'received user info from getUserInfo: ' +
-                JSON.stringify(userInfoFromGetter),
-            );
-            assert(isEqual(userInfoFromGetter, expectedUserInfo));
-            resolve();
-          })
-          .catch(reject);
         resolve();
       });
 
