@@ -17,7 +17,7 @@ import {usePingPongEffect} from '../lib/hooks/use-ping-pong-effect';
 import Layout from '../components/Layout';
 import {useWatchReachability, useWatchState} from '../lib/watch/hooks';
 import {sendWatchMessage} from '../lib/watch/messages';
-import {transferFile} from '../lib/watch/files';
+import {startFileTransfer} from '../lib/watch/files';
 import {sendMessageData} from '../lib/watch/message-data';
 
 type MessageToWatch = {text: string; timestamp: number};
@@ -102,7 +102,7 @@ export default function HomeScreen() {
 
                       if (useFileAPI && image.uri) {
                         console.log(image.uri);
-                        promise = transferFile(image.uri);
+                        promise = startFileTransfer(image.uri);
                       } else if (image.data) {
                         promise = sendMessageData(image.data);
                       } else {
