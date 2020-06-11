@@ -6,6 +6,7 @@ export const watchEmitter = new NativeEventEmitter(NativeModule);
 export enum NativeWatchEvent {
   EVENT_FILE_TRANSFER_ERROR = 'WatchFileTransferError',
   EVENT_FILE_TRANSFER_FINISHED = 'WatchFileTransferFinished',
+  EVENT_FILE_TRANSFER_PROGRESS = 'WatchFileTransferProgress',
   EVENT_RECEIVE_MESSAGE = 'WatchReceiveMessage',
   EVENT_WATCH_STATE_CHANGED = 'WatchStateChanged',
   EVENT_WATCH_REACHABILITY_CHANGED = 'WatchReachabilityChanged',
@@ -34,6 +35,22 @@ export interface NativeWatchEventPayloads {
   };
   [NativeWatchEvent.EVENT_WATCH_USER_INFO_RECEIVED]: WatchPayload;
   [NativeWatchEvent.EVENT_APPLICATION_CONTEXT_RECEIVED]: WatchPayload | null;
+  [NativeWatchEvent.EVENT_FILE_TRANSFER_PROGRESS]: {
+    completedUnitCount: number;
+    estimatedTimeRemaining: number | null;
+    fileCompletedCount: number | null;
+    fileTotalCount: number | null;
+    cancellable: boolean;
+    cancelled: boolean;
+    fileURL: string;
+    id: string;
+    fractionCompleted: number;
+    indeterminate: boolean;
+    pausable: boolean;
+    paused: boolean;
+    throughput: number | null;
+    totalUnitCount: number;
+  };
 }
 
 export function _subscribeToNativeWatchEvent<
@@ -45,5 +62,5 @@ export function _subscribeToNativeWatchEvent<
     throw new Error('Must pass event');
   }
   const sub = watchEmitter.addListener(event, cb);
-  return sub.remove.bind(sub);
+  return () => sub.remove();
 }

@@ -29,7 +29,7 @@ export class MessagesIntegrationTest extends IntegrationTest {
 
   testSubscribeToMessages = (log: TestLogFn) => {
     return new Promise((resolve) => {
-      const unsubscribe = subscribeToMessages((_err, message) => {
+      const unsubscribe = subscribeToMessages((message) => {
         log('Received message ' + JSON.stringify(message));
         if (message?.text === "Here's your message") {
           unsubscribe();
@@ -47,7 +47,7 @@ export class MessagesIntegrationTest extends IntegrationTest {
   testReplyToMessagesFromWatch = (log: TestLogFn) => {
     return new Promise((resolve, reject) => {
       let receivedFirstMessage = false;
-      const unsubscribe = subscribeToMessages((_err, message, reply) => {
+      const unsubscribe = subscribeToMessages((message, reply) => {
         log('Received message ' + JSON.stringify(message));
         if (message?.text === "Here's your message") {
           receivedFirstMessage = true;

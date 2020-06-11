@@ -86,16 +86,11 @@ export class ApplicationContextTests extends IntegrationTest {
     log: TestLogFn,
   ) => {
     return new Promise((resolve, reject) => {
-      const unsubscribe = subscribeToMessages((err, payload) => {
+      const unsubscribe = subscribeToMessages((payload) => {
         if (payload) {
           log('Received message: ' + JSON.stringify(payload));
         }
-        if (err) {
-          reject(err);
-          unsubscribe();
-        } else if (
-          payload?.text === 'application context received by the watch'
-        ) {
+        if (payload?.text === 'application context received by the watch') {
           unsubscribe();
           const applicationContext = payload && payload['application-context'];
           if (typeof applicationContext === 'object') {

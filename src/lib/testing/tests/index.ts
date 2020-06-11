@@ -4,6 +4,7 @@ import {ReachabilityIntegrationTest} from './reachability-tests';
 import {ApplicationContextTests} from './application-context-tests';
 import {WatchStateIntegrationTest} from './watch-state-tests';
 import {MessageDataIntegrationTest} from './message-data-tests';
+import {FileIntegrationTest} from './file-tests';
 
 export type TestFn = (log: (str: string) => void) => Promise<void>;
 
@@ -23,6 +24,7 @@ export interface TestSection {
 const tests = [
   new MessagesIntegrationTest(),
   new MessageDataIntegrationTest(),
+  new FileIntegrationTest(),
   new UserInfoIntegrationTest(),
   new ReachabilityIntegrationTest(),
   new ApplicationContextTests(),

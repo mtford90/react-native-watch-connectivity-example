@@ -19,8 +19,7 @@ export type WatchMessageListener<
   Payload = WatchPayload,
   ResponsePayload = WatchPayload
 > = (
-  err: Error | null,
-  payload: Payload | null,
+  payload: Payload,
   // if the watch sends a message without a messageId, we have no way to respond
   replyHandler: ((resp: ResponsePayload) => void) | null,
 ) => void;
@@ -39,6 +38,6 @@ export function subscribeToMessages<
           NativeModule.replyToMessageWithId(messageId, resp)
       : null;
 
-    cb(null, payload || null, replyHandler);
+    cb(payload || null, replyHandler);
   });
 }

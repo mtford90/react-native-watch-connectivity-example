@@ -70,14 +70,11 @@ export class UserInfoIntegrationTest extends IntegrationTest {
     return new Promise((resolve, reject) => {
       sendUserInfo(userInfoToSend);
 
-      const unsubscribe = subscribeToMessages((err, payload) => {
+      const unsubscribe = subscribeToMessages((payload) => {
         if (payload) {
           log('Received message: ' + JSON.stringify(payload));
         }
-        if (err) {
-          reject(err);
-          unsubscribe();
-        } else if (payload?.text === 'user info received by the watch') {
+        if (payload?.text === 'user info received by the watch') {
           unsubscribe();
           const userInfo = payload && payload['user-info'];
           if (typeof userInfo === 'object') {

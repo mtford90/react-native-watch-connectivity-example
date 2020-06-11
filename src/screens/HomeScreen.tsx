@@ -98,9 +98,10 @@ export default function HomeScreen() {
                     if (!image.didCancel) {
                       setLoading(true);
                       const startTransferTime = new Date().getTime();
-                      let promise;
+                      let promise: Promise<unknown>;
 
                       if (useFileAPI && image.uri) {
+                        console.log(image.uri);
                         promise = transferFile(image.uri);
                       } else if (image.data) {
                         promise = sendMessageData(image.data);
@@ -109,7 +110,7 @@ export default function HomeScreen() {
                       }
 
                       promise
-                        .then((resp) => {
+                        .then((resp: any) => {
                           const endTransferTime = new Date().getTime();
                           const elapsed = endTransferTime - startTransferTime;
                           console.log(

@@ -131,6 +131,9 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
   func session(_ session: WCSession, didReceive file: WCSessionFile) {
     let data: Data? = try? Data(contentsOf: file.fileURL)
     self.image.setImageData(data)
+    self.session?.sendMessage(["message": "received your file"], replyHandler: { (response) in
+      print("received reply")
+    })
   }
 
   ////////////////////////////////////////////////////////////////////////////////

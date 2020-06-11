@@ -1,27 +1,19 @@
 import {
-  NativeWatchEvent,
   _subscribeToNativeWatchEvent,
+  NativeWatchEvent,
   NativeWatchEventPayloads,
 } from './events';
 import {FileTransferInfo, NativeModule, WatchPayload} from './native-module';
 
-type FileTransferEventPayload =
-  | {ok: false; error: Error}
-  | ({
-      ok: true;
-    } & NativeWatchEventPayloads[NativeWatchEvent.EVENT_FILE_TRANSFER_FINISHED]);
-
 export function subscribeToFileTransfers(
-  cb: (event: FileTransferEventPayload) => void,
+  cb: (
+    event: NativeWatchEventPayloads[NativeWatchEvent.EVENT_FILE_TRANSFER_PROGRESS],
+  ) => void,
 ) {
   const subscriptions = [
     _subscribeToNativeWatchEvent(
-      NativeWatchEvent.EVENT_FILE_TRANSFER_FINISHED,
-      (nativePayload) => cb({...nativePayload, ok: true}),
-    ),
-    _subscribeToNativeWatchEvent(
-      NativeWatchEvent.EVENT_FILE_TRANSFER_ERROR,
-      ({error}) => cb({ok: false, error}),
+      NativeWatchEvent.EVENT_FILE_TRANSFER_PROGRESS,
+      cb,
     ),
   ];
   return () => subscriptions.forEach((fn) => fn());

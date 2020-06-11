@@ -12,7 +12,7 @@ export function sendMessageData(
       data,
       encoding,
       (resp) => {
-        const decoded = atob(resp)
+        const decoded = atob(resp);
         cb(null, decoded);
         resolve(decoded);
       },
