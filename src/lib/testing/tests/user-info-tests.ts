@@ -11,6 +11,7 @@ import {isEqual} from 'lodash';
 import {assert, TestLogFn} from './util';
 import {sendWatchMessage, subscribeToMessages} from '../../watch/messages';
 import * as faker from 'faker';
+import {QueuedUserInfo} from '../../watch/native-module';
 
 export class UserInfoIntegrationTest extends IntegrationTest {
   constructor() {
@@ -44,18 +45,19 @@ export class UserInfoIntegrationTest extends IntegrationTest {
             email: 'bob@example.com',
           };
 
-          const unsubscribe = subscribeToUserInfo((userInfoRecords) => {
-            const userInfoFromEvent = userInfoRecords[0].userInfo;
-            log(
-              'received user info from watch event: ' +
-                JSON.stringify(userInfoRecords),
-            );
-            unsubscribe();
-            if (!isEqual(userInfoFromEvent, expectedUserInfo)) {
-              reject(new Error('User info did not match'));
-            }
-            resolve();
-          });
+          const unsubscribe = subscribeToUserInfo(
+            ({userInfo: userInfoFromEvent}) => {
+              log(
+                'received user info from watch event: ' +
+                  JSON.stringify(userInfoFromEvent),
+              );
+              unsubscribe();
+              if (!isEqual(userInfoFromEvent, expectedUserInfo)) {
+                reject(new Error('User info did not match'));
+              }
+              resolve();
+            },
+          );
 
           sendWatchMessage({test: true, text: 'send me some user info'});
           log('requested user info from watch');
@@ -66,9 +68,12 @@ export class UserInfoIntegrationTest extends IntegrationTest {
   testUserInfoQueue = async (log: TestLogFn) => {
     return clearUserInfoQueue().then(async () => {
       const userInfoPromise = new Promise((resolve) => {
+        const receivedUserInfo: QueuedUserInfo[] = [];
+
         const unsubscribe = subscribeToUserInfo((userInfo) => {
-          log(`Received ${userInfo.length} enqueued user info records`);
-          if (userInfo.length === 2) {
+          log('Received user info: ' + JSON.stringify(userInfo));
+          receivedUserInfo.push(userInfo);
+          if (receivedUserInfo.length === 2) {
             unsubscribe();
             resolve();
           }

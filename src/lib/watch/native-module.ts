@@ -19,6 +19,12 @@ export type FileTransferInfo = {
   id: string;
 };
 
+export type QueuedUserInfo<UserInfo extends WatchPayload = WatchPayload> = {
+  userInfo: UserInfo;
+  timestamp: number;
+  id: string;
+};
+
 export interface UserInfoQueue<UserInfo extends WatchPayload = WatchPayload> {
   [timestamp: string]: UserInfo;
 }
@@ -66,7 +72,6 @@ export interface IRNWatchNativeModule extends EventSubscriptionVendor {
     url: string,
     metaData: WatchPayload | null,
     cb: (info: FileTransferInfo) => void,
-    errCb: (err: Error) => void,
   ) => void;
 
   updateApplicationContext: (context: WatchPayload) => void;

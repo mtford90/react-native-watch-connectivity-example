@@ -1,23 +1,20 @@
-import {WatchPayload, NativeModule, UserInfoQueue} from './native-module';
+import {
+  WatchPayload,
+  NativeModule,
+  UserInfoQueue,
+  QueuedUserInfo,
+} from './native-module';
 import {_subscribeToNativeWatchEvent, NativeWatchEvent} from './events';
 import sortBy from 'lodash.sortby';
 
-export type EnqueuedUserInfo<UserInfo extends WatchPayload = WatchPayload> = {
-  userInfo: UserInfo;
-  date: Date;
-  id: string;
-};
-
 export function subscribeToUserInfo<
   UserInfo extends WatchPayload = WatchPayload
->(cb: (records: EnqueuedUserInfo<UserInfo>[]) => void) {
+>(cb: (queuedUserInfo: QueuedUserInfo<UserInfo>) => void) {
   // noinspection JSIgnoredPromiseFromCall
   return _subscribeToNativeWatchEvent<
     NativeWatchEvent.EVENT_WATCH_USER_INFO_RECEIVED,
-    UserInfoQueue<UserInfo>
-  >(NativeWatchEvent.EVENT_WATCH_USER_INFO_RECEIVED, (payload) => {
-    cb(processUserInfoQueue(payload));
-  });
+    QueuedUserInfo<UserInfo>
+  >(NativeWatchEvent.EVENT_WATCH_USER_INFO_RECEIVED, cb);
 }
 
 export function sendUserInfo<UserInfo extends WatchPayload = WatchPayload>(
@@ -29,20 +26,20 @@ export function sendUserInfo<UserInfo extends WatchPayload = WatchPayload>(
 function processUserInfoQueue<UserInfo extends WatchPayload = WatchPayload>(
   queue: UserInfoQueue<UserInfo>,
 ) {
-  const userInfoArr: EnqueuedUserInfo<UserInfo>[] = sortBy(
+  const userInfoArr: QueuedUserInfo<UserInfo>[] = sortBy(
     Object.entries(queue).map(([id, userInfo]) => ({
       id,
       userInfo,
-      date: new Date(parseInt(id, 10)),
+      timestamp: parseInt(id, 10),
     })),
-    (u) => u.date,
+    (u) => u.timestamp,
   );
   return userInfoArr;
 }
 
 export function getQueuedUserInfo<
   UserInfo extends WatchPayload = WatchPayload
->(): Promise<EnqueuedUserInfo<UserInfo>[]> {
+>(): Promise<QueuedUserInfo<UserInfo>[]> {
   return new Promise((resolve) => {
     NativeModule.getUserInfo<UserInfo>((userInfoCache) => {
       const userInfoArr = processUserInfoQueue(userInfoCache);
@@ -54,7 +51,7 @@ export function getQueuedUserInfo<
 
 export function clearUserInfoQueue<
   UserInfo extends WatchPayload = WatchPayload
->(): Promise<EnqueuedUserInfo[]> {
+>(): Promise<QueuedUserInfo[]> {
   return new Promise((resolve) => {
     NativeModule.clearUserInfoQueue((cache) =>
       resolve(processUserInfoQueue(cache)),
@@ -66,7 +63,7 @@ type UserInfoId = string | Date | number | {id: string};
 
 export function dequeueUserInfo(
   idOrIds: UserInfoId | Array<UserInfoId>,
-): Promise<EnqueuedUserInfo[]> {
+): Promise<QueuedUserInfo[]> {
   const ids: Array<UserInfoId> = Array.isArray(idOrIds) ? idOrIds : [idOrIds];
   const normalisedIds = ids.map((id) => {
     if (typeof id === 'object') {

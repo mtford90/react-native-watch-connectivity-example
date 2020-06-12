@@ -52,7 +52,7 @@ export function startFileTransfer(
   uri: string,
   metadata: WatchPayload = {},
 ): Promise<FileTransferInfo> {
-  return new Promise((resolve, reject) => {
-    NativeModule.transferFile(uri, metadata, resolve, reject);
+  return new Promise((resolve) => {
+    NativeModule.transferFile(uri, metadata, resolve);
   });
 }
