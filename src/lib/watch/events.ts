@@ -21,17 +21,10 @@ export enum NativeWatchEvent {
 }
 
 export interface NativeWatchEventPayloads {
-  [NativeWatchEvent.EVENT_FILE_TRANSFER_ERROR]: {
-    error: Error;
-    uri: string;
-    metadata: Record<string, unknown>;
-    id: string;
-  };
-  [NativeWatchEvent.EVENT_FILE_TRANSFER_FINISHED]: {
-    uri: string;
-    metadata: Record<string, unknown>;
-    id: string;
-  };
+  [NativeWatchEvent.EVENT_FILE_TRANSFER_ERROR]: FileTransferProgressPayload;
+  [NativeWatchEvent.EVENT_FILE_TRANSFER_FINISHED]: FileTransferProgressPayload;
+  [NativeWatchEvent.EVENT_FILE_TRANSFER_PROGRESS]: FileTransferProgressPayload;
+  [NativeWatchEvent.EVENT_FILE_TRANSFER_STARTED]: FileTransferProgressPayload;
   [NativeWatchEvent.EVENT_RECEIVE_MESSAGE]: WatchPayload & {id?: string};
   [NativeWatchEvent.EVENT_WATCH_STATE_CHANGED]: {
     state:
@@ -48,12 +41,6 @@ export interface NativeWatchEventPayloads {
     WatchPayload
   >;
   [NativeWatchEvent.EVENT_APPLICATION_CONTEXT_RECEIVED]: WatchPayload | null;
-  [NativeWatchEvent.EVENT_FILE_TRANSFER_PROGRESS]: FileTransferProgressPayload;
-  [NativeWatchEvent.EVENT_FILE_TRANSFER_STARTED]: {
-    uri: string;
-    metadata: Record<string, unknown>;
-    id: string;
-  };
 }
 
 export function _subscribeToNativeWatchEvent<
