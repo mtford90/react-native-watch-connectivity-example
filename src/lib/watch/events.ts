@@ -1,5 +1,10 @@
 import {NativeEventEmitter} from 'react-native';
-import {NativeModule, QueuedUserInfo, WatchPayload} from './native-module';
+import {
+  FileTransferProgressPayload,
+  NativeModule,
+  QueuedUserInfo,
+  WatchPayload,
+} from './native-module';
 
 export const watchEmitter = new NativeEventEmitter(NativeModule);
 
@@ -43,16 +48,7 @@ export interface NativeWatchEventPayloads {
     WatchPayload
   >;
   [NativeWatchEvent.EVENT_APPLICATION_CONTEXT_RECEIVED]: WatchPayload | null;
-  [NativeWatchEvent.EVENT_FILE_TRANSFER_PROGRESS]: {
-    completedUnitCount: number;
-    estimatedTimeRemaining: number | null;
-    fractionCompleted: number;
-    throughput: number | null;
-    totalUnitCount: number;
-    uri: string;
-    metadata: Record<string, unknown>;
-    id: string;
-  };
+  [NativeWatchEvent.EVENT_FILE_TRANSFER_PROGRESS]: FileTransferProgressPayload;
   [NativeWatchEvent.EVENT_FILE_TRANSFER_STARTED]: {
     uri: string;
     metadata: Record<string, unknown>;

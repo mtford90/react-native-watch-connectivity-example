@@ -2,13 +2,22 @@ import {IntegrationTest} from '../IntegrationTest';
 import {TestLogFn} from './util';
 
 import fs from 'react-native-fs';
-import {startFileTransfer, subscribeToFileTransfers} from '../../watch/files';
+import {
+  getFileTransfers,
+  startFileTransfer,
+  subscribeToFileTransfers,
+} from '../../watch/files';
 import {NativeWatchEvent} from '../../watch/events';
 
 export class FileIntegrationTest extends IntegrationTest {
   constructor() {
     super('Files');
-    this.registerTest('Files', 'reachable', this.testSendFile);
+    this.registerTest('Send file', 'reachable', this.testSendFile);
+    this.registerTest(
+      'Get file transfers',
+      'reachable',
+      this.testGetFileTransfers,
+    );
   }
 
   testSendFile = (log: TestLogFn) => {
@@ -55,5 +64,10 @@ export class FileIntegrationTest extends IntegrationTest {
     });
 
     // TODO: Clean up susbcribes on test failure (need an after func)
+  };
+
+  testGetFileTransfers = async (log: TestLogFn) => {
+    const fileTransfers = await getFileTransfers();
+    log('File transfers received: ' + JSON.stringify(fileTransfers, null, 2));
   };
 }

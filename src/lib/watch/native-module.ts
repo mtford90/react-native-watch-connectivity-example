@@ -29,6 +29,19 @@ export interface UserInfoQueue<UserInfo extends WatchPayload = WatchPayload> {
   [timestamp: string]: UserInfo;
 }
 
+export type FileTransferProgressPayload = {
+  completedUnitCount: number;
+  estimatedTimeRemaining: number | null;
+  fractionCompleted: number;
+  throughput: number | null;
+  totalUnitCount: number;
+  uri: string;
+  metadata: Record<string, unknown>;
+  id: string;
+  startTime: number;
+  endTime: number | null;
+};
+
 export interface IRNWatchNativeModule extends EventSubscriptionVendor {
   getSessionState: (cb: (state: WCWatchState) => void) => void;
 
@@ -72,6 +85,10 @@ export interface IRNWatchNativeModule extends EventSubscriptionVendor {
     url: string,
     metaData: WatchPayload | null,
     cb: (info: FileTransferInfo) => void,
+  ) => void;
+
+  getFileTransfers: (
+    cb: (transfers: {[id: string]: FileTransferProgressPayload}) => void,
   ) => void;
 
   updateApplicationContext: (context: WatchPayload) => void;

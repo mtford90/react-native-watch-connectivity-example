@@ -3,7 +3,12 @@ import {
   NativeWatchEvent,
   NativeWatchEventPayloads,
 } from './events';
-import {FileTransferInfo, NativeModule, WatchPayload} from './native-module';
+import {
+  FileTransferInfo,
+  FileTransferProgressPayload,
+  NativeModule,
+  WatchPayload,
+} from './native-module';
 
 export function subscribeToFileTransfers(
   cb: (
@@ -54,5 +59,13 @@ export function startFileTransfer(
 ): Promise<FileTransferInfo> {
   return new Promise((resolve) => {
     NativeModule.transferFile(uri, metadata, resolve);
+  });
+}
+
+export function getFileTransfers(): Promise<{
+  [id: string]: FileTransferProgressPayload;
+}> {
+  return new Promise((resolve) => {
+    NativeModule.getFileTransfers(resolve);
   });
 }
