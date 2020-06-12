@@ -51,24 +51,8 @@ export function subscribeToFileTransfers(
 export function startFileTransfer(
   uri: string,
   metadata: WatchPayload = {},
-  cb?: (err: Error | null, info: FileTransferInfo | null) => void,
 ): Promise<FileTransferInfo> {
   return new Promise((resolve, reject) => {
-    NativeModule.transferFile(
-      uri,
-      metadata,
-      (resp) => {
-        resolve(resp);
-        if (cb) {
-          cb(null, resp);
-        }
-      },
-      (err) => {
-        reject(err);
-        if (cb) {
-          cb(err, null);
-        }
-      },
-    );
+    NativeModule.transferFile(uri, metadata, resolve, reject);
   });
 }

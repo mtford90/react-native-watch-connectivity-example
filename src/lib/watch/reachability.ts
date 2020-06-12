@@ -11,14 +11,9 @@ export function subscribeToWatchReachability(cb: WatchReachabilityListener) {
   );
 }
 
-export function getWatchReachability(
-  cb?: (reachable: boolean) => void,
-): Promise<boolean> {
+export function getWatchReachability(): Promise<boolean> {
   return new Promise((resolve) => {
     NativeModule.getReachability((reachability) => {
-      if (cb) {
-        cb(reachability);
-      }
       resolve(reachability);
     });
   });

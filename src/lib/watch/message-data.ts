@@ -4,7 +4,6 @@ import {atob} from './base64';
 
 export function sendMessageData(
   data: string,
-  cb: (err: Error | null, response: string | null) => void = () => {},
   encoding: Encoding = Encoding.NSUTF8StringEncoding,
 ): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -13,11 +12,9 @@ export function sendMessageData(
       encoding,
       (resp) => {
         const decoded = atob(resp);
-        cb(null, decoded);
         resolve(decoded);
       },
       (err) => {
-        cb(err, null);
         reject(err);
       },
     );
