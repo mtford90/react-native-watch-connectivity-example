@@ -1,18 +1,19 @@
 import {IntegrationTest} from '../IntegrationTest';
+
+import {isEqual} from 'lodash';
+import {assert, TestLogFn} from './util';
+import * as faker from 'faker';
 import {
   clearUserInfoQueue,
   dequeueUserInfo,
   getQueuedUserInfo,
-  transferUserInfo,
+  sendWatchMessage,
+  subscribeToMessages,
   subscribeToUserInfo,
   transferCurrentComplicationUserInfo,
-} from '../../watch/user-info';
-
-import {isEqual} from 'lodash';
-import {assert, TestLogFn} from './util';
-import {sendWatchMessage, subscribeToMessages} from '../../watch/messages';
-import * as faker from 'faker';
-import {QueuedUserInfo} from '../../watch/native-module';
+  transferUserInfo,
+} from 'react-native-watch-connectivity';
+import {QueuedUserInfo} from 'react-native-watch-connectivity/dist/native-module';
 
 export class UserInfoIntegrationTest extends IntegrationTest {
   constructor() {

@@ -1,6 +1,9 @@
-import {sendWatchMessage, subscribeToMessages} from '../../watch/messages';
 import {IntegrationTest} from '../IntegrationTest';
 import {TestLogFn} from './util';
+import {
+  sendWatchMessage,
+  subscribeToMessages,
+} from 'react-native-watch-connectivity';
 
 export class MessagesIntegrationTest extends IntegrationTest {
   constructor() {

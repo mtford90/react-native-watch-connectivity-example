@@ -2,13 +2,15 @@ import {IntegrationTest} from '../IntegrationTest';
 
 import {isEqual} from 'lodash';
 import {assert, TestLogFn} from './util';
-import {sendWatchMessage, subscribeToMessages} from '../../watch/messages';
+
+import * as faker from 'faker';
 import {
   getApplicationContext,
+  sendWatchMessage,
   subscribeToApplicationContext,
+  subscribeToMessages,
   updateApplicationContext,
-} from '../../watch/application-context';
-import * as faker from 'faker';
+} from 'react-native-watch-connectivity';
 
 export class ApplicationContextTests extends IntegrationTest {
   constructor() {

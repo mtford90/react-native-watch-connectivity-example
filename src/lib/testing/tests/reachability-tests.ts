@@ -2,7 +2,7 @@ import {IntegrationTest} from '../IntegrationTest';
 import {
   getWatchReachability,
   subscribeToWatchReachability,
-} from '../../watch/reachability';
+} from 'react-native-watch-connectivity';
 import {assert, TestLogFn} from './util';
 
 export class ReachabilityIntegrationTest extends IntegrationTest {

@@ -6,8 +6,8 @@ import {
   getFileTransfers,
   startFileTransfer,
   subscribeToFileTransfers,
-} from '../../watch/files';
-import {NativeWatchEvent} from '../../watch/events';
+} from 'react-native-watch-connectivity';
+import {NativeWatchEvent} from 'react-native-watch-connectivity/dist/events';
 
 export class FileIntegrationTest extends IntegrationTest {
   constructor() {

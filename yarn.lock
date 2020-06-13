@@ -5827,6 +5827,13 @@ react-native-svg@^12.1.0:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"
 
+react-native-watch-connectivity@^0.5.0-alpha.9:
+  version "0.5.0-alpha.9"
+  resolved "https://registry.yarnpkg.com/react-native-watch-connectivity/-/react-native-watch-connectivity-0.5.0-alpha.9.tgz#41cb14f2a581d366d0357af75f248b422fac8137"
+  integrity sha512-f2qweMaMnZuzITy17WZtnqtAtDd5vmI9/rfUU1IbqhqwxEwydVNt5yyQBiR59kZa3a/g2d47ij7q0Dlgn0qm6g==
+  dependencies:
+    lodash.sortby "^4.7.0"
+
 react-native@0.62.2:
   version "0.62.2"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.62.2.tgz#d831e11a3178705449142df19a70ac2ca16bad10"

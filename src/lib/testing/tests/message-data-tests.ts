@@ -1,6 +1,6 @@
 import {IntegrationTest} from '../IntegrationTest';
-import {sendMessageData} from '../../watch/message-data';
 import {TestLogFn} from './util';
+import {sendMessageData} from 'react-native-watch-connectivity';
 
 export class MessageDataIntegrationTest extends IntegrationTest {
   constructor() {

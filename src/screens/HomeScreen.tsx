@@ -15,11 +15,13 @@ import {configureAnimation} from '../lib/animation';
 import {KeyboardSpacer} from '../components/KeyboardSpacer';
 import {usePingPongEffect} from '../lib/hooks/use-ping-pong-effect';
 import Layout from '../components/Layout';
-import {sendWatchMessage} from '../lib/watch/messages';
-import {startFileTransfer} from '../lib/watch/files';
-import {sendMessageData} from '../lib/watch/message-data';
-import {useWatchReachability} from '../lib/watch/hooks/reachability';
-import {useWatchState} from '../lib/watch/hooks/state';
+import {
+  sendWatchMessage,
+  startFileTransfer,
+  useWatchReachability,
+  useWatchState,
+  sendMessageData,
+} from 'react-native-watch-connectivity';
 
 type MessageToWatch = {text: string; timestamp: number};
 

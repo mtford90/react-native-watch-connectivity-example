@@ -1,6 +1,6 @@
 import {IntegrationTest} from '../IntegrationTest';
 import {assert, TestLogFn} from './util';
-import {getWatchState, WatchState} from '../../watch/state';
+import {getWatchState, WatchState} from 'react-native-watch-connectivity';
 
 export class WatchStateIntegrationTest extends IntegrationTest {
   constructor() {

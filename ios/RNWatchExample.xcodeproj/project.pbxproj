@@ -29,7 +29,6 @@
 		6AD72252234899E100DACD18 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AD72251234899E100DACD18 /* Preview Assets.xcassets */; };
 		6AD72257234899E100DACD18 /* WatchApp.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 6AD72231234899DE00DACD18 /* WatchApp.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6AD7226F23489C8900DACD18 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD7226E23489C8900DACD18 /* InterfaceController.swift */; };
-		6AFFAE7C248BC76F00577276 /* RNWatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AFFAE7B248BC76F00577276 /* RNWatch.m */; };
 		76DE47B47A0647A3BC46A586 /* Blah_Blah_Blah.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C3400AF0E6E24E49BE476863 /* Blah_Blah_Blah.jpg */; };
 		7B40C4D978EB46C397EAD578 /* JetBrainsMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DB67F00A48A94D64B45298C8 /* JetBrainsMono-Regular.ttf */; };
 		8A0850BBBA76458299D946E1 /* JetBrainsMono-Bold-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22EECE8E7861403B9EEF2CD3 /* JetBrainsMono-Bold-Italic.ttf */; };
@@ -118,8 +117,6 @@
 		6AD72253234899E100DACD18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6AD72254234899E100DACD18 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		6AD7226E23489C8900DACD18 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
-		6AFFAE7A248BC76F00577276 /* RNWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RNWatch.h; path = "../../react-native-watch-connectivity/ios/RNWatch/RNWatch.h"; sourceTree = "<group>"; };
-		6AFFAE7B248BC76F00577276 /* RNWatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RNWatch.m; path = "../../react-native-watch-connectivity/ios/RNWatch/RNWatch.m"; sourceTree = "<group>"; };
 		770A6F3FF59E81D8270FD468 /* Pods-RNWatchExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNWatchExampleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RNWatchExampleTests/Pods-RNWatchExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		839ADE6B86974B12822EB3FF /* JetBrainsMono-Medium-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "JetBrainsMono-Medium-Italic.ttf"; path = "../assets/fonts/JetBrainsMono-Medium-Italic.ttf"; sourceTree = "<group>"; };
 		BD0D2BBFEDBE4A72AB6CE73E /* JetBrainsMono-ExtraBold-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "JetBrainsMono-ExtraBold-Italic.ttf"; path = "../assets/fonts/JetBrainsMono-ExtraBold-Italic.ttf"; sourceTree = "<group>"; };
@@ -163,8 +160,6 @@
 		13B07FAE1A68108700A75B9A /* RNWatchExample */ = {
 			isa = PBXGroup;
 			children = (
-				6AFFAE7A248BC76F00577276 /* RNWatch.h */,
-				6AFFAE7B248BC76F00577276 /* RNWatch.m */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -498,7 +493,6 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				6A45AD9F245C7949003FA7F4 /* Dummy.swift in Sources */,
-				6AFFAE7C248BC76F00577276 /* RNWatch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
