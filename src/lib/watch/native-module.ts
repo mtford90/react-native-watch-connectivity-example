@@ -45,7 +45,7 @@ export type FileTransferProgressPayload = {
 export interface IRNWatchNativeModule extends EventSubscriptionVendor {
   getSessionState: (cb: (state: WCWatchState) => void) => void;
 
-  sendUserInfo: <UserInfo extends WatchPayload>(userInfo: UserInfo) => void;
+  transferUserInfo: <UserInfo extends WatchPayload>(userInfo: UserInfo) => void;
   getUserInfo: <UserInfo extends WatchPayload>(
     cb: (userInfo: UserInfoQueue<UserInfo>) => void,
   ) => void;
@@ -57,7 +57,7 @@ export interface IRNWatchNativeModule extends EventSubscriptionVendor {
     cb: (userInfo: UserInfoQueue<UserInfo>) => void,
   ) => void;
 
-  sendComplicationUserInfo: (userInfo: WatchPayload) => void;
+  transferCurrentComplicationUserInfo: (userInfo: WatchPayload) => void;
 
   getReachability: (cb: (reachable: boolean) => void) => void;
   getIsPaired: (cb: (isPaired: boolean) => void) => void;

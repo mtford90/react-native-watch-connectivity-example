@@ -3,8 +3,9 @@ import {
   clearUserInfoQueue,
   dequeueUserInfo,
   getQueuedUserInfo,
-  sendUserInfo,
+  transferUserInfo,
   subscribeToUserInfo,
+  transferCurrentComplicationUserInfo,
 } from '../../watch/user-info';
 
 import {isEqual} from 'lodash';
@@ -16,7 +17,12 @@ import {QueuedUserInfo} from '../../watch/native-module';
 export class UserInfoIntegrationTest extends IntegrationTest {
   constructor() {
     super('User Info');
-    this.registerTest('Send user info', 'reachable', this.testSendUserInfo);
+    this.registerTest('Transfer user info', 'reachable', this.testSendUserInfo);
+    this.registerTest(
+      'Transfer complication user info',
+      'reachable',
+      this.testTransferComplicationUserInfo,
+    );
     this.registerTest(
       'Subscribe to user info',
       'reachable',
@@ -31,6 +37,17 @@ export class UserInfoIntegrationTest extends IntegrationTest {
     const receivedUserInfo = await this.sendUserInfoAndWaitForAck(
       sentUserInfo,
       log,
+    );
+    assert(isEqual(sentUserInfo, receivedUserInfo));
+  };
+
+  testTransferComplicationUserInfo = async (log: TestLogFn) => {
+    await clearUserInfoQueue();
+    const sentUserInfo = {uid: faker.lorem.word(), name: faker.lorem.words(2)};
+    const receivedUserInfo = await this.sendUserInfoAndWaitForAck(
+      sentUserInfo,
+      log,
+      true,
     );
     assert(isEqual(sentUserInfo, receivedUserInfo));
   };
@@ -145,9 +162,14 @@ export class UserInfoIntegrationTest extends IntegrationTest {
   private sendUserInfoAndWaitForAck = (
     userInfoToSend: Record<string, unknown>,
     log: TestLogFn,
+    complication: boolean = false,
   ) => {
     return new Promise((resolve, reject) => {
-      sendUserInfo(userInfoToSend);
+      if (complication) {
+        transferCurrentComplicationUserInfo(userInfoToSend);
+      } else {
+        transferUserInfo(userInfoToSend);
+      }
 
       const unsubscribe = subscribeToMessages((payload) => {
         if (payload) {

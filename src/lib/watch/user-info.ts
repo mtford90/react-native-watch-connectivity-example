@@ -17,10 +17,16 @@ export function subscribeToUserInfo<
   >(NativeWatchEvent.EVENT_WATCH_USER_INFO_RECEIVED, cb);
 }
 
-export function sendUserInfo<UserInfo extends WatchPayload = WatchPayload>(
+export function transferCurrentComplicationUserInfo<
+  UserInfo extends WatchPayload = WatchPayload
+>(info: UserInfo) {
+  NativeModule.transferCurrentComplicationUserInfo(info);
+}
+
+export function transferUserInfo<UserInfo extends WatchPayload = WatchPayload>(
   info: UserInfo,
 ) {
-  NativeModule.sendUserInfo(info);
+  NativeModule.transferUserInfo(info);
 }
 
 function processUserInfoQueue<UserInfo extends WatchPayload = WatchPayload>(
