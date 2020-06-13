@@ -11,13 +11,9 @@ import WatchConnectivity
 import Foundation
 
 class InterfaceController: WKInterfaceController, WCSessionDelegate {
-
-
   @IBOutlet weak var label: WKInterfaceLabel!
   @IBOutlet weak var pings: WKInterfaceLabel!
   @IBOutlet weak var image: WKInterfaceImage!
-  var numPings: Int = 0
-
   var session: WCSession?
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +77,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         session.transferUserInfo(["uid": "abc", "name": "mike", "email": "mike@example.com"])
       } else if (text == "send me some application context") {
         do {
-          try session.updateApplicationContext(message["context"] as! [String : Any])
+          try session.updateApplicationContext(message["context"] as! [String: Any])
           print("updated the application context")
         } catch {
           print("Unexpected error when updating application context: \(error).")
@@ -89,31 +85,36 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
       }
     } else {
       if (message["ping"] != nil) {
-        self.numPings = self.numPings + 1;
-        self.pings.setText("\(self.numPings) pings")
+        ComplicationState.shared.incPings();
+        self.pings.setText("\(ComplicationState.shared.pings) pings")
         print("sending pong")
         replyHandler(["pong": true])
       } else {
         let text = message["text"] as! String
-        let timestamp: Double = (message["timestamp"] as! NSNumber).doubleValue
-        self.label.setText(text)
-        let currentTimestamp: Double = Date().timeIntervalSince1970 * 1000
-        let elapsed: Double = currentTimestamp - timestamp
-        replyHandler(["elapsed": Int(elapsed), "timestamp": round(currentTimestamp)])
+        if (text == "update complications") {
+          self.updateComplications()
+        } else {
+          let timestamp: Double = (message["timestamp"] as! NSNumber).doubleValue
+          ComplicationState.shared.message = text;
+          self.label.setText(text)
+          let currentTimestamp: Double = Date().timeIntervalSince1970 * 1000
+          let elapsed: Double = currentTimestamp - timestamp
+          replyHandler(["elapsed": Int(elapsed), "timestamp": round(currentTimestamp)])
+          self.updateComplications()
+        }
       }
     }
   }
 
   ////////////////////////////////////////////////////////////////////////////////
 
-
   func session(_ session: WCSession, didReceiveMessageData messageData: Data, replyHandler: @escaping (Data) -> Void) {
     let currentTimestamp: Double = Date().timeIntervalSince1970 * 1000
-    
+
     let str = String(data: messageData, encoding: .utf8)
-        
+
     print("recevied message data %@", str as Any)
-    
+
     if (str == "hello") {
       let utf8str = "hi there".data(using: .utf8)
       print("sending message data %@", utf8str as Any)
@@ -187,4 +188,13 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     return ""
   }
 
+  private func updateComplications() {
+    let server = CLKComplicationServer.sharedInstance()
+
+    let complications = server.activeComplications ?? []
+
+    for complication in complications {
+      server.reloadTimeline(for: complication)
+    }
+  }
 }
