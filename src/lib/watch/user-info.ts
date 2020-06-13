@@ -7,9 +7,13 @@ import {
 import {_subscribeToNativeWatchEvent, NativeWatchEvent} from './events';
 import sortBy from 'lodash.sortby';
 
+type UserInfoSubscription<UserInfo extends WatchPayload = WatchPayload> = (
+  queuedUserInfo: QueuedUserInfo<UserInfo>,
+) => void;
+
 export function subscribeToUserInfo<
   UserInfo extends WatchPayload = WatchPayload
->(cb: (queuedUserInfo: QueuedUserInfo<UserInfo>) => void) {
+>(cb: UserInfoSubscription<UserInfo>) {
   // noinspection JSIgnoredPromiseFromCall
   return _subscribeToNativeWatchEvent<
     NativeWatchEvent.EVENT_WATCH_USER_INFO_RECEIVED,

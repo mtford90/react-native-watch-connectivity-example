@@ -19,7 +19,7 @@ export type WatchMessageListener<
   Payload = WatchPayload,
   ResponsePayload = WatchPayload
 > = (
-  payload: Payload,
+  payload: Payload & {id?: string},
   // if the watch sends a message without a messageId, we have no way to respond
   replyHandler: ((resp: ResponsePayload) => void) | null,
 ) => void;
@@ -27,7 +27,7 @@ export type WatchMessageListener<
 export function subscribeToMessages<
   MessageFromWatch extends WatchPayload = WatchPayload,
   MessageToWatch extends WatchPayload = WatchPayload
->(cb: WatchMessageListener<MessageFromWatch & {id?: string}, MessageToWatch>) {
+>(cb: WatchMessageListener<MessageFromWatch, MessageToWatch>) {
   return _subscribeToNativeWatchEvent<
     NativeWatchEvent.EVENT_RECEIVE_MESSAGE,
     MessageFromWatch & {id?: string}
